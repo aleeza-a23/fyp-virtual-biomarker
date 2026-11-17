@@ -1,0 +1,16 @@
+fyp_env/
+venv/
+node_modules/
+dist/
+slides/
+patches/
+features/
+features_dry/
+tcga_out/
+fyp_app/backend/storage/
+*.svs
+*.svs.part
+*.db
+*.pt
+.env
+__pycache__/
