@@ -109,11 +109,22 @@ def signoff(cid: int, body: SignOff, db: Session = Depends(get_db), user: User =
     audit(db, user, "signoff", c.code)
     return case_out(c, db)
 
+
 @router.get("/me/reports")
 def my_reports(db: Session = Depends(get_db), user: User = Depends(require("patient"))):
     p = db.query(Patient).filter_by(code=user.patient_code).first()
-    cs = db.query(Case).filter_by(patient_id=p.id, status="Signed off").all()
-    return [case_out(c, db) for c in cs]       # patients only ever see signed-off reports
+
+    if not p:
+        raise HTTPException(status_code=404, detail="Patient record not found")
+
+    cs = db.query(Case).filter_by(
+        patient_id=p.id,
+        status="Signed off"
+    ).all()
+
+    audit(db, user, "view_my_reports")
+
+    return [case_out(c, db) for c in cs]
 
 @router.get("/research/cohort")
 def cohort(db: Session = Depends(get_db), user: User = Depends(require("researcher"))):

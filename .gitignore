@@ -17,3 +17,17 @@ __pycache__/
 features*/
 *.h5
 *.part
+# Generated reports and exports
+reports/
+*.pdf
+*.csv
+
+# Python artifacts
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Local environment files
+.env.*
+!.env.example
